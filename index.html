@@ -1,972 +1,1179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/HarryRojr/HarryRojr.github.io/refs/heads/main/assets/HR.ico">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HarryRojr</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;600;700&family=Dancing+Script:wght@700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#f05a67" />
+  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/HarryRojr/HarryRojr.github.io/refs/heads/main/assets/HR.ico">
+  <title>HarryRojr — Gaming, Anime & Other Bad Decisions</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   <style>
-    @font-face {
-      font-family: 'CustomFont';
-      src: url('https://raw.githubusercontent.com/HarryRojr/HarryRojr.github.io/refs/heads/main/assets/font1.ttf');
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0d0f14;
-      --surface: #151820;
-      --surface2: #1c2030;
-      --surface3: #212640;
-      --border: rgba(255,255,255,0.07);
-      --border-hover: rgba(124,92,252,0.4);
-      --accent: #7c5cfc;
-      --accent2: #00d4aa;
-      --accent-dim: rgba(124,92,252,0.12);
-      --accent2-dim: rgba(0,212,170,0.1);
-      --text: #e8eaf0;
-      --muted: #8b90a0;
-      --glow: rgba(124,92,252,0.2);
-      --glow2: rgba(0,212,170,0.15);
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --panel-soft: #fff7f7;
+      --text: #202124;
+      --muted: #70757a;
+      --line: #e7e8eb;
+      --red: #e95b67;
+      --red-dark: #d94b58;
+      --red-soft: #fff0f1;
+      --red-softer: #fff7f7;
+      --green: #238636;
+      --yellow: #f5a623;
+      --shadow: 0 2px 8px rgba(32,33,36,.08), 0 8px 28px rgba(32,33,36,.05);
+      --radius: 18px;
+      --max: 1420px;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'CustomFont', 'Inter', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 5rem;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(233,91,103,.08), transparent 28rem),
+        linear-gradient(180deg, #fafbfc 0%, var(--bg) 100%);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.65;
     }
 
-    /* ── SCROLL PROGRESS BAR ── */
-    #scroll-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 3px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      z-index: 9999;
-      transition: width 0.1s linear;
-      border-radius: 0 2px 2px 0;
+    button, input { font: inherit; }
+
+    /* TOP BAR */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 68px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
     }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      background: rgba(13,15,20,0.88);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
+    .header-inner {
+      max-width: var(--max);
+      height: 100%;
+      margin: auto;
+      padding: 0 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 62px;
+      gap: 24px;
     }
 
-    .nav-logo {
-      font-family: 'Pacifico', cursive;
-      font-size: 2.1rem;
-      color: var(--accent);
-      line-height: 1;
-      text-shadow: 0 0 18px var(--glow);
-      cursor: default;
-      user-select: none;
-      transition: transform 0.3s ease, text-shadow 0.3s;
-    }
-    .nav-logo:hover { transform: scale(1.08); text-shadow: 0 0 28px var(--glow); }
-
-    @keyframes quack-bounce {
-      0%   { transform: scale(1); }
-      30%  { transform: scale(1.18) translateY(-7px); }
-      60%  { transform: scale(0.95); }
-      80%  { transform: scale(1.07); }
-      100% { transform: scale(1); }
-    }
-
-    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
-    .nav-links button {
-      background: none; border: none;
-      padding: 0.5rem 0;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.88rem; font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-      position: relative;
-      transition: color 0.25s;
-    }
-    .nav-links button::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 50%;
-      transform: translateX(-50%);
-      width: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 2px;
-      transition: width 0.3s;
-    }
-    .nav-links button:hover { color: var(--text); }
-    .nav-links button:hover::after,
-    .nav-links button.active::after { width: 100%; }
-    .nav-links button.active { color: var(--text); }
-
-    /* ── LAYOUT ── */
-    .content-container {
-      flex: 1 0 auto;
-      max-width: 920px;
-      width: 100%;
-      padding: 2rem;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .content-section { display: none; }
-    .content-section.active { display: block; }
-
-    /* staggered card entrance */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.25rem;
-      margin-bottom: 1.75rem;
-      opacity: 0;
-      animation: fadeUp 0.5s ease forwards;
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(124,92,252,0.3), transparent);
-    }
-    .card:nth-child(1) { animation-delay: 0.05s; }
-    .card:nth-child(2) { animation-delay: 0.12s; }
-    .card:nth-child(3) { animation-delay: 0.19s; }
-    .card:nth-child(4) { animation-delay: 0.26s; }
-    .card:nth-child(5) { animation-delay: 0.33s; }
-    .card:nth-child(6) { animation-delay: 0.40s; }
-    .card:nth-child(7) { animation-delay: 0.47s; }
-
-    /* ── SECTION HEADINGS ── */
-    .section-heading {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem; font-weight: 700;
-      color: var(--text);
-      margin-bottom: 1.25rem;
+    .brand {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 11px;
       cursor: pointer;
       user-select: none;
-      width: fit-content;
-      transition: color 0.2s;
-    }
-    .section-heading:hover { color: var(--accent2); }
-    .section-heading .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-    .section-heading.popped { color: var(--accent2); }
-    .section-heading.popped .dot { background: var(--accent2); box-shadow: 0 0 8px var(--accent2); }
-
-    @keyframes bounce {
-      0%   { transform: scale(1); }
-      28%  { transform: scale(1.14); }
-      55%  { transform: scale(0.94); }
-      75%  { transform: scale(1.06); }
-      100% { transform: scale(1); }
-    }
-    .bounce-anim { animation: bounce 0.45s ease; }
-
-    .card p {
-      font-size: 1.05rem;
-      line-height: 1.9;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
     }
 
-    /* ── HERO ── */
-    .hero {
-      display: flex;
-      align-items: center;
-      gap: 2.5rem;
-    }
-    .avatar {
-      width: 108px; height: 108px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.2rem; font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-      box-shadow: 0 0 0 4px rgba(124,92,252,0.2), 0 0 40px var(--glow);
-      position: relative;
-    }
-    .avatar::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      background: linear-gradient(135deg, var(--accent), var(--accent2)) border-box;
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-      animation: rotate-border 4s linear infinite;
-    }
-    @keyframes rotate-border {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    .hero-text { flex: 1; }
-    .hero-text h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.1rem; font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.35rem;
-    }
-    .hero-text h1 span { color: var(--accent); }
-    .hero-text .sub { font-size: 0.95rem; color: var(--muted); margin-bottom: 1.1rem; }
-
-    .badge-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-    .badge {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.22rem 0.82rem;
-      font-size: 0.76rem; font-weight: 600;
-      color: var(--muted);
-      font-family: 'Inter', sans-serif;
-    }
-    .badge.a { border-color: rgba(124,92,252,0.5); color: var(--accent); background: var(--accent-dim); }
-    .badge.t { border-color: rgba(0,212,170,0.4); color: var(--accent2); background: var(--accent2-dim); }
-
-    /* ── STAT CARDS ── */
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-      gap: 1rem;
-      margin-top: 1.25rem;
-    }
-    .stat-card {
-      background: var(--surface2);
-      border: 1px solid var(--border);
+    .brand-mark {
+      width: 38px;
+      height: 38px;
       border-radius: 12px;
-      padding: 1.2rem 1rem;
-      text-align: center;
-      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      display: grid;
+      place-items: center;
+      background: var(--red);
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      box-shadow: 0 5px 16px rgba(233,91,103,.25);
+      transition: transform .2s ease;
+    }
+
+    .brand:hover .brand-mark { transform: rotate(-7deg) scale(1.05); }
+
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -.03em;
+    }
+
+    .brand-name span { color: var(--red); }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    nav button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 9px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: .88rem;
+      font-weight: 600;
+      transition: .2s ease;
+    }
+
+    nav button:hover { background: #f5f5f6; color: var(--text); }
+    nav button.active { background: var(--red-soft); color: var(--red-dark); }
+
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: .76rem;
+      white-space: nowrap;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #35a854;
+      box-shadow: 0 0 0 4px rgba(53,168,84,.12);
+    }
+
+    /* LAYOUT */
+    .page {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 34px auto 60px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 26px;
+      align-items: start;
+    }
+
+    main { min-width: 0; }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* HERO */
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 26px;
       position: relative;
       overflow: hidden;
     }
-    .stat-card::after {
+
+    .hero::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.25s;
+      width: 240px;
+      height: 240px;
+      right: -100px;
+      top: -120px;
+      border-radius: 50%;
+      background: var(--red-soft);
+      pointer-events: none;
     }
-    .stat-card:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: 0 8px 24px var(--glow); }
-    .stat-card:hover::after { opacity: 1; }
-    .stat-card .stat-icon { font-size: 1.5rem; margin-bottom: 0.4rem; display: block; }
-    .stat-card .num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.65rem; font-weight: 700;
-      color: var(--accent);
-      display: block;
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-    .stat-card .label { font-size: 0.75rem; color: var(--muted); font-family: 'Inter', sans-serif; }
 
-    /* ── GAME CARDS ── */
+    .avatar {
+      width: 112px;
+      height: 112px;
+      border-radius: 28px;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 0 0 1px var(--line), 0 10px 30px rgba(32,33,36,.12);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--red-dark);
+      font-size: .76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: 5px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      line-height: 1.05;
+      letter-spacing: -.055em;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 span { color: var(--red); }
+
+    .hero p {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 17px;
+    }
+
+    .chip {
+      padding: 6px 11px;
+      background: #f5f6f7;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #5f6368;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .chip.red {
+      background: var(--red-soft);
+      border-color: #ffd6d9;
+      color: var(--red-dark);
+    }
+
+    /* CONTENT CARDS */
+    .card {
+      margin-top: 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 27px;
+      box-shadow: 0 2px 8px rgba(32,33,36,.04);
+      animation: enter .35s ease both;
+    }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(9px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.12rem;
+      letter-spacing: -.025em;
+    }
+
+    .tiny-label {
+      font-size: .68rem;
+      color: var(--muted);
+      background: #f6f7f8;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-weight: 700;
+    }
+
+    .text {
+      color: #5f6368;
+      font-size: .94rem;
+    }
+
+    /* FUNNY CLICKABLE HEADINGS */
+    .secret-heading {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .secret-heading .icon {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--red-soft);
+      color: var(--red);
+      transition: transform .2s ease;
+    }
+
+    .secret-heading:hover .icon { transform: rotate(12deg); }
+
+    .secret-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 30px;
+      transform: translate(-50%, 30px) scale(.96);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+      background: #202124;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.2);
+      font-size: .84rem;
+      font-weight: 600;
+      transition: .25s ease;
+    }
+
+    .secret-toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    /* GAMES */
     .game-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
-      gap: 1rem;
-      margin-top: 1.25rem;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
     }
-    .game-card {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 1.2rem;
-      text-align: left;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+
+    .game {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fff;
+      transition: .2s ease;
       position: relative;
       overflow: hidden;
     }
-    .game-card:hover {
-      border-color: rgba(124,92,252,0.5);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(124,92,252,0.1);
-    }
-    .game-card .gi { font-size: 1.75rem; display: block; margin-bottom: 0.45rem; }
-    .game-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
-    .game-card p  { font-size: 0.77rem; color: var(--muted); margin: 0; line-height: 1.5; }
-    .game-card .tag {
-      display: inline-block;
-      margin-top: 0.5rem;
-      background: var(--accent2-dim);
-      border: 1px solid rgba(0,212,170,0.2);
-      border-radius: 999px;
-      padding: 0.1rem 0.58rem;
-      font-size: 0.68rem;
-      color: var(--accent2);
-      font-family: 'Inter', sans-serif; font-weight: 600;
-    }
-    .now-playing-badge {
-      position: absolute;
-      top: 0.65rem; right: 0.65rem;
-      background: var(--accent-dim);
-      border: 1px solid rgba(124,92,252,0.35);
-      border-radius: 999px;
-      padding: 0.1rem 0.5rem;
-      font-size: 0.62rem;
-      color: var(--accent);
-      font-family: 'Inter', sans-serif; font-weight: 700;
-      display: flex; align-items: center; gap: 0.3rem;
-    }
-    .now-playing-badge .bars {
-      display: flex; align-items: flex-end; gap: 2px; height: 10px;
-    }
-    .bar {
-      width: 2px;
-      background: var(--accent);
-      border-radius: 1px;
-      animation: bar-bounce 0.9s ease-in-out infinite;
-    }
-    .bar:nth-child(1) { height: 4px;  animation-delay: 0s; }
-    .bar:nth-child(2) { height: 8px;  animation-delay: 0.15s; }
-    .bar:nth-child(3) { height: 5px;  animation-delay: 0.3s; }
-    @keyframes bar-bounce {
-      0%, 100% { transform: scaleY(1); }
-      50%       { transform: scaleY(0.35); }
+
+    .game:hover {
+      border-color: #ffc5c9;
+      box-shadow: 0 7px 22px rgba(233,91,103,.08);
+      transform: translateY(-2px);
     }
 
-    /* ── SPECS ── */
-    .specs-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem 2rem;
-      margin-top: 1rem;
-      font-family: 'Inter', sans-serif;
-    }
-    .spec-row {
+    .game-top {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 0.55rem 0;
-      border-bottom: 1px solid var(--border);
-      gap: 0.75rem;
+      gap: 12px;
     }
-    .spec-row:last-child { border-bottom: none; }
-    .spec-key {
-      font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--accent2);
-      flex-shrink: 0;
-    }
-    .spec-val { font-size: 0.87rem; color: var(--text); text-align: right; }
 
-    /* terminal accent above specs */
-    .terminal-bar {
-      display: flex; align-items: center; gap: 0.45rem;
-      margin-bottom: 1.25rem;
-    }
-    .terminal-bar .dot-r { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
-    .terminal-bar .dot-y { width: 10px; height: 10px; border-radius: 50%; background: #febc2e; }
-    .terminal-bar .dot-g { width: 10px; height: 10px; border-radius: 50%; background: #28c840; }
-    .terminal-bar span { font-family: 'Inter', monospace; font-size: 0.78rem; color: var(--muted); margin-left: 0.5rem; }
-
-    /* ── SOCIALS ── */
-    .socials-grid {
+    .game-icon {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 auto;
+      border-radius: 12px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
-      gap: 1.1rem;
-      margin-top: 1.5rem;
+      place-items: center;
+      background: var(--red-soft);
+      font-size: 1.35rem;
     }
-    .social-link {
+
+    .game h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .93rem;
+    }
+
+    .game .genre {
+      font-size: .68rem;
+      color: var(--red-dark);
+      font-weight: 700;
+    }
+
+    .game p {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.55;
+    }
+
+    .game-status {
+      margin-top: 11px;
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #f6f7f8;
+      color: #6b6f73;
+      font-size: .65rem;
+      font-weight: 700;
+    }
+
+    .game-status.now { color: #238636; background: #effaf1; }
+    .game-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* SIDEBAR */
+    aside {
+      position: sticky;
+      top: 92px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.1rem 0.6rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
-      cursor: pointer;
-      width: 100%;
+      gap: 15px;
     }
-    .social-link:hover {
-      border-color: rgba(124,92,252,0.45);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px var(--glow);
-    }
-    .social-link img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 0.55rem; }
-    .social-link-label { font-size: 0.82rem; font-weight: 600; font-family: 'Inter', sans-serif; color: var(--muted); }
 
-    details summary { list-style: none; width: 100%; }
-    details summary::-webkit-details-marker { display: none; }
-    details[open] .social-link { border-color: rgba(124,92,252,0.45); }
-    .details-reveal {
-      margin-top: 0.55rem;
-      padding: 0.55rem 0.8rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-family: 'Inter', sans-serif;
-      color: var(--muted);
-      text-align: center;
+    .widget {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 19px;
+      box-shadow: 0 2px 8px rgba(32,33,36,.035);
     }
-    .details-reveal strong { color: var(--accent2); }
 
-    /* ── FOOTER ── */
-    footer {
-      width: 100%;
-      padding: 1.4rem;
-      text-align: center;
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 0.95rem;
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: text-shadow 0.3s;
-      margin-top: auto;
-    }
-    footer:hover { text-shadow: 0 0 12px var(--glow); }
-
-    /* ── MUSIC PLAYER ── */
-    .music-player-card {
-      position: fixed;
-      bottom: 24px; left: 24px;
-      z-index: 10000;
+    .widget-head {
       display: flex;
       align-items: center;
-      padding: 13px 16px;
-      width: min(340px, 90vw);
-      height: 66px;
-      border-radius: 18px;
-      background: rgba(13,15,20,0.94);
-      border: 1px solid rgba(124,92,252,0.28);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.55), 0 0 28px var(--glow);
+      justify-content: space-between;
+      margin-bottom: 13px;
+    }
+
+    .widget h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem;
+    }
+
+    .widget-icon {
+      color: var(--red);
+      font-size: 19px;
+    }
+
+    /* fake requirements */
+    .req-game {
+      background: var(--red-softer);
+      border: 1px solid #ffe1e3;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .req-game strong {
+      font-size: .79rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .req-row {
+      display: flex;
+      justify-content: space-between;
       gap: 10px;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-    .music-player-card.hidden {
-      transform: translate(-48px, 48px) scale(0.8);
-      opacity: 0; pointer-events: none;
+      padding: 4px 0;
+      font-size: .68rem;
+      border-bottom: 1px dashed #f0dfe1;
     }
 
-    @keyframes pulse-glow {
-      0%   { box-shadow: 0 0 10px rgba(124,92,252,0.4), 0 0 20px rgba(124,92,252,0.15); transform: scale(1); }
-      50%  { box-shadow: 0 0 18px rgba(124,92,252,0.85), 0 0 36px rgba(124,92,252,0.35); transform: scale(1.06); }
-      100% { box-shadow: 0 0 10px rgba(124,92,252,0.4), 0 0 20px rgba(124,92,252,0.15); transform: scale(1); }
-    }
-    #play-pause-btn { animation: pulse-glow 1.6s infinite ease-in-out; }
-    #play-pause-btn.playing { animation: none; }
+    .req-row:last-child { border-bottom: 0; }
+    .req-row span:first-child { color: var(--muted); }
+    .req-row span:last-child { font-weight: 700; text-align: right; }
 
-    /* music equalizer bars inside player */
-    .eq-bars { display: flex; align-items: flex-end; gap: 2px; height: 14px; margin-left: 2px; }
-    .eq-bar {
-      width: 2.5px;
-      background: var(--accent2);
-      border-radius: 1px;
-      animation: bar-bounce 0.8s ease-in-out infinite;
-      display: none;
-    }
-    .eq-bar:nth-child(1) { height: 5px; animation-delay: 0s; }
-    .eq-bar:nth-child(2) { height: 11px; animation-delay: 0.18s; }
-    .eq-bar:nth-child(3) { height: 7px; animation-delay: 0.36s; }
-    .eq-bar:nth-child(4) { height: 9px; animation-delay: 0.1s; }
-    .eq-bar.visible { display: block; }
-
-    .track-info { display: flex; flex-direction: column; justify-content: center; flex: 1; text-align: left; overflow: hidden; }
-    .track-row  { display: flex; align-items: center; gap: 6px; }
-    .track-title { color: var(--text); font-weight: 700; font-size: 0.88rem; font-family: 'Inter', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .track-artist { color: var(--accent2); font-size: 0.72rem; font-weight: 500; font-family: 'Inter', sans-serif; }
-
-    .ctrl-btn {
-      background: rgba(255,255,255,0.07);
-      border: none; border-radius: 50%;
-      width: 38px; height: 38px;
-      cursor: pointer; color: var(--text);
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, transform 0.2s;
-      flex-shrink: 0;
-    }
-    .ctrl-btn:hover { background: var(--accent); transform: scale(1.12); }
-    .ctrl-btn.big { width: 46px; height: 46px; font-size: 24px; }
-
-    .vol-wrap { display: flex; align-items: center; gap: 5px; }
-    .vol-slider {
-      -webkit-appearance: none;
-      width: 68px; height: 3px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 2px; cursor: pointer;
-    }
-    .vol-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 10px; height: 10px;
-      background: var(--accent); border-radius: 50%;
+    .potato-meter {
+      margin-top: 10px;
+      height: 7px;
+      background: #eceff1;
+      border-radius: 99px;
+      overflow: hidden;
     }
 
-    .show-player-btn {
-      position: fixed;
-      bottom: 24px; left: 24px;
-      width: 46px; height: 46px;
-      border-radius: 50%;
-      display: none;
+    .potato-meter span {
+      display: block;
+      height: 100%;
+      width: 87%;
+      background: var(--red);
+      border-radius: inherit;
+    }
+
+    .widget-note {
+      margin-top: 8px;
+      font-size: .67rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* RECENTLY INTO */
+    .recent-list { list-style: none; }
+
+    .recent-list li {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #f0f1f2;
+    }
+
+    .recent-list li:last-child { border: 0; }
+
+    .recent-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: #f6f7f8;
+      display: grid;
+      place-items: center;
+      font-size: .9rem;
+    }
+
+    .recent-list strong {
+      display: block;
+      font-size: .72rem;
+    }
+
+    .recent-list span {
+      display: block;
+      color: var(--muted);
+      font-size: .65rem;
+      line-height: 1.35;
+    }
+
+    /* MOOD */
+    .mood {
+      display: flex;
       align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(124,92,252,0.35);
-      background: rgba(13,15,20,0.92);
-      box-shadow: 0 0 22px var(--glow);
-      z-index: 9999; cursor: pointer; color: var(--accent);
+      gap: 12px;
     }
 
-    /* ── SNOWFALL ── */
-    #snowfall-canvas {
+    .mood-face {
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      background: var(--red-soft);
+      border-radius: 14px;
+    }
+
+    .mood strong { display:block; font-size: .78rem; }
+    .mood span { color: var(--muted); font-size: .67rem; }
+
+    /* SOCIALS */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .social {
+      min-height: 115px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: white;
+      transition: .2s ease;
+    }
+
+    .social:hover {
+      border-color: #ffc5c9;
+      background: var(--red-softer);
+      transform: translateY(-2px);
+    }
+
+    .social img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .social span {
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    /* LOVE */
+    .rickroll {
+      text-align: center;
+      padding: 55px 25px;
+    }
+
+    .rickroll .big-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+
+    /* MUSIC */
+    .music {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9997;
+      right: 22px;
+      bottom: 20px;
+      z-index: 150;
+      width: 300px;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 12px 38px rgba(32,33,36,.14);
+      padding: 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      .nav-logo { font-size: 1.7rem; }
-      .nav-links { gap: 0.85rem; }
-      .nav-links button { font-size: 0.78rem; }
-      .content-container { padding: 1rem; }
-      .card { padding: 1.4rem; }
-      .hero { flex-direction: column; gap: 1.25rem; }
-      .hero-text h1 { font-size: 1.7rem; }
-      .specs-grid { grid-template-columns: 1fr; }
-      .music-player-card { height: 60px; padding: 9px 13px; }
-      .ctrl-btn.big { width: 40px; height: 40px; font-size: 20px; }
-      .vol-slider { width: 52px; }
+    .play {
+      width: 39px;
+      height: 39px;
+      border: 0;
+      border-radius: 11px;
+      background: var(--red);
+      color: white;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: .2s ease;
+    }
+
+    .play:hover { background: var(--red-dark); transform: scale(1.04); }
+
+    .track { min-width: 0; flex: 1; }
+    .track strong {
+      display: block;
+      font-size: .72rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .track span { color: var(--muted); font-size: .63rem; }
+
+    .volume {
+      width: 58px;
+      accent-color: var(--red);
+    }
+
+    .music-close {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    .music-mini {
+      position: fixed;
+      right: 22px;
+      bottom: 20px;
+      z-index: 150;
+      width: 45px;
+      height: 45px;
+      display: none;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--red);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+
+    /* FOOTER */
+    footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 28px 35px;
+      color: var(--muted);
+      font-size: .73rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    footer button {
+      border: 0;
+      background: transparent;
+      color: var(--red);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    /* SCROLL PROGRESS */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: var(--red);
+      z-index: 999;
+    }
+
+    @media (max-width: 1050px) {
+      .page { grid-template-columns: 1fr; }
+      aside { position: static; display: grid; grid-template-columns: repeat(2, 1fr); }
+      .music { right: 15px; }
+    }
+
+    @media (max-width: 700px) {
+      header { height: auto; }
+      .header-inner { padding: 12px 16px; flex-wrap: wrap; }
+      nav { order: 3; width: 100%; overflow-x: auto; }
+      nav button { flex: 1; white-space: nowrap; }
+      .header-status { display: none; }
+      .page { width: min(100% - 22px, var(--max)); margin-top: 17px; }
+      .hero { grid-template-columns: 1fr; padding: 23px; }
+      .avatar { width: 82px; height: 82px; border-radius: 21px; }
+      .card { padding: 20px; }
+      .game-grid, .social-grid, aside { grid-template-columns: 1fr; }
+      .music { left: 11px; right: 11px; width: auto; bottom: 11px; }
+      footer { padding: 0 14px 90px; }
     }
   </style>
 </head>
+
 <body>
+  <div id="progress"></div>
 
-<div id="scroll-bar"></div>
+  <header>
+    <div class="header-inner">
+      <div class="brand" id="brand">
+        <div class="brand-mark">HR</div>
+        <div class="brand-name">Harry<span>Rojr</span></div>
+      </div>
 
-<!-- ── NAV ── -->
-<nav>
-  <span id="site-title" class="nav-logo">HarryRojr</span>
-  <ul class="nav-links">
-    <li><button class="active" data-target="home-section">Home</button></li>
-    <li><button data-target="socials-section">Socials</button></li>
-    <li><button data-target="love-life-section">Love Life</button></li>
-  </ul>
-</nav>
+      <nav>
+        <button class="active" data-target="home">Home</button>
+        <button data-target="socials">Socials</button>
+        <button data-target="love">Love Life</button>
+      </nav>
 
-<main class="content-container">
+      <div class="header-status">
+        <span class="online-dot"></span>
+        Probably gaming
+      </div>
+    </div>
+  </header>
 
-  <!-- ══ HOME ══ -->
-  <div id="home-section" class="content-section active">
+  <div class="page">
+    <main>
 
-    <!-- Hero -->
-    <div class="card">
-      <div class="hero">
-        <div class="avatar">
-          <img
-    class="avatar"
-    src="https://avatars.githubusercontent.com/u/34771246?v=4"
-    alt="Avatar">
-        </div>
-        <div class="hero-text">
-          <h1>Hey, I'm <span>HarryRojr</span> 👾</h1>
-          <p class="sub">A human in body, a gamer at heart. Welcome to my corner of the internet.</p>
-          <div class="badge-row">
-            <span class="badge a">PC + Console</span>
-            <span class="badge t">Competitive</span>
-            <span class="badge">Anime Binger</span>
-            <span class="badge">Night Owl</span>
-            <span class="badge">Manga Reader</span>
+      <!-- HOME -->
+      <section id="home" class="section active">
+
+        <div class="hero">
+          <img class="avatar" src="https://avatars.githubusercontent.com/u/34771246?v=4" alt="HarryRojr avatar">
+          <div>
+            <div class="eyebrow">Player profile.exe</div>
+            <h1>Hey, I'm <span>HarryRojr</span> 👾</h1>
+            <p>
+              Gamer, tech enthusiast, professional backlog collector and occasional
+              victim of games that were supposed to take “just one more hour.”
+            </p>
+            <div class="chips">
+              <span class="chip red">Budget Gaming Department</span>
+              <span class="chip">Story Games</span>
+              <span class="chip">Competitive Chaos</span>
+              <span class="chip">Anime</span>
+              <span class="chip">Manga & Comics</span>
+              <span class="chip">Night Owl</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- About Me -->
-    <div class="card">
-      <div class="section-heading" id="about-me-heading"><span class="dot"></span>About me:</div>
-      <p>
-        I'm Harry Rojr — a gamer, tech enthusiast, and professional collector of unfinished game backlogs. You'll usually find me getting lost in story-driven adventures, hunting treasure in Sea of Thieves, or getting way too competitive in TEKKEN 8. I love games that create great stories, chaotic moments, and the occasional rage-inducing challenge. When I'm not gaming, I'm usually working on projects, learning something new, or figuring out what game to play next. Friendly by default, competitive when the match starts. 😎
-      </p>
-    </div>
-
-    <!-- Games I Play -->
-    <div class="card">
-      <div class="section-heading" id="games-heading"><span class="dot"></span>Games I Play:</div>
-      <div class="game-grid">
-        <div class="game-card">
-          <div class="now-playing-badge"><div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>Now</div>
-          <span class="gi">🏴‍☠️</span><h3>Sea of Thieves</h3><p>Serving L's and stealing Chests of Fortune. Arrr.</p><span class="tag">Adventure</span>
+        <div class="card">
+          <div class="section-title">
+            <button class="secret-heading" data-secret="about">
+              <span class="icon material-icons">person</span>
+              <h2>About me</h2>
+            </button>
+            <span class="tiny-label">click the heading 👀</span>
+          </div>
+          <p class="text">
+            I'm Harry Rojr — a gamer, tech enthusiast, and proud owner of a gaming
+            backlog that has achieved sentience. I like story-driven adventures,
+            chaotic multiplayer sessions, fighting games, anime, manga, comics,
+            movies and basically anything capable of making me say “okay, last one”
+            at 4 AM. I enjoy messing with tech, building little projects, discovering
+            weird games and pretending my PC is stronger than it actually is.
+          </p>
         </div>
-        <div class="game-card"><span class="gi">👊</span><h3>TEKKEN 8</h3><p>Making people ragequit is a skill I've mastered.</p><span class="tag">Fighting</span></div>
-        <div class="game-card"><span class="gi">🎯</span><h3>Call of Duty</h3><p>Sniping since day one. Don't push me.</p><span class="tag">FPS</span></div>
-        <div class="game-card"><span class="gi">🗡️</span><h3>Assassin's Creed</h3><p>Parkour is my cardio. No gym needed.</p><span class="tag">Action RPG</span></div>
-        <div class="game-card"><span class="gi">💣</span><h3>Battlefield</h3><p>Clutch moments only. No respawn needed.</p><span class="tag">FPS</span></div>
-        <div class="game-card"><span class="gi">🔪</span><h3>Indie Games</h3><p>In love with every single one of them</p><span class="tag">Social</span></div>
+
+        <div class="card">
+          <div class="section-title">
+            <button class="secret-heading" data-secret="games">
+              <span class="icon material-icons">sports_esports</span>
+              <h2>Games I Play</h2>
+            </button>
+            <span class="tiny-label">currently ruining my sleep</span>
+          </div>
+
+          <div class="game-grid">
+            <article class="game">
+              <div class="game-top">
+                <div class="game-icon">🏴‍☠️</div>
+                <div><h3>Sea of Thieves</h3><span class="genre">ADVENTURE</span></div>
+              </div>
+              <p>Stealing treasure, losing treasure, then blaming the ocean.</p>
+              <span class="game-status now">Currently sailing</span>
+            </article>
+
+            <article class="game">
+              <div class="game-top">
+                <div class="game-icon">👊</div>
+                <div><h3>TEKKEN 8</h3><span class="genre">FIGHTING</span></div>
+              </div>
+              <p>Friendship ends at character select. It is what it is.</p>
+              <span class="game-status now">Controller endangered</span>
+            </article>
+
+            <article class="game">
+              <div class="game-top">
+                <div class="game-icon">🎯</div>
+                <div><h3>Call of Duty</h3><span class="genre">FPS</span></div>
+              </div>
+              <p>Sometimes I hit the enemy. Sometimes I hit the floor.</p>
+              <span class="game-status">On & off</span>
+            </article>
+
+            <article class="game">
+              <div class="game-top">
+                <div class="game-icon">🗡️</div>
+                <div><h3>Assassin's Creed</h3><span class="genre">ACTION RPG</span></div>
+              </div>
+              <p>Parkour, stabbing and accidentally jumping off buildings.</p>
+              <span class="game-status">Backlog survivor</span>
+            </article>
+
+            <article class="game">
+              <div class="game-top">
+                <div class="game-icon">💥</div>
+                <div><h3>Battlefield</h3><span class="genre">FPS</span></div>
+              </div>
+              <p>Explosions are just architecture with enthusiasm.</p>
+              <span class="game-status">Chaos mode</span>
+            </article>
+
+            <article class="game">
+              <div class="game-top">
+                <div class="game-icon">🧩</div>
+                <div><h3>Indie Games</h3><span class="genre">EVERYTHING</span></div>
+              </div>
+              <p>Small studios somehow making games better than billion-dollar companies.</p>
+              <span class="game-status">Always browsing</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <button class="secret-heading" data-secret="pc">
+              <span class="icon material-icons">computer</span>
+              <h2>My “Gaming PC”</h2>
+            </button>
+            <span class="tiny-label">specifications classified by poverty</span>
+          </div>
+          <p class="text">
+            It isn't a monster. It isn't a beast. It is a brave little machine that
+            wakes up every morning, looks at a new AAA game and quietly whispers:
+            “please… medium settings.”
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <button class="secret-heading" data-secret="hobbies">
+              <span class="icon material-icons">auto_awesome</span>
+              <h2>When I'm Not Gaming</h2>
+            </button>
+            <span class="tiny-label">which is unfortunately rare</span>
+          </div>
+          <p class="text">
+            Anime, manga, comics, movies and shows are the usual suspects. I like
+            getting completely absorbed in a good story, whether that's an anime
+            marathon, a comic rabbit hole or a movie that somehow turns into a
+            three-hour emotional investment. Music is usually playing in the
+            background too — preferably loud enough to make the neighbors question
+            my life choices.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <button class="secret-heading" data-secret="connect">
+              <span class="icon material-icons">alternate_email</span>
+              <h2>Connect With Me</h2>
+            </button>
+            <span class="tiny-label">I don't bite. Usually.</span>
+          </div>
+          <p class="text">
+            Want to talk games, anime, movies, music, tech or just waste several
+            hours arguing about which game deserves a 10/10? I'm around.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- SOCIALS -->
+      <section id="socials" class="section">
+        <div class="hero">
+          <div class="avatar" style="display:grid;place-items:center;background:var(--red-soft);font-size:2.2rem;">🌐</div>
+          <div>
+            <div class="eyebrow">Digital footprint</div>
+            <h1>Find me <span>online</span>.</h1>
+            <p>Yes, I'm probably on one of these instead of doing something productive.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title"><h2>Socials & Gaming Profiles</h2><span class="tiny-label">click responsibly</span></div>
+          <div class="social-grid">
+            <a class="social" href="https://www.xbox.com/en-US/play/user/HarryRojr" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg" alt="Xbox"><span>Xbox</span></a>
+            <a class="social" href="https://x.com/HarryRojr/" target="_blank" rel="noopener noreferrer"><img src="https://about.x.com/content/dam/about-twitter/x/large-x-logo.png.twimg.768.png" alt="X"><span>Twitter / X</span></a>
+            <a class="social" href="https://www.reddit.com/user/HarryRojr/" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/en/b/bd/Reddit_Logo_Icon.svg" alt="Reddit"><span>Reddit</span></a>
+            <a class="social" href="https://open.spotify.com/user/27mruhq25lv2pvek3hs2ksi0t?si=b5e9fd6a937642cc" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify"><span>Spotify</span></a>
+            <a class="social" href="https://www.youtube.com/@HarryRojr" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube"><span>YouTube</span></a>
+            <a class="social" href="https://www.twitch.tv/HarryRojr" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg" alt="Twitch"><span>Twitch</span></a>
+            <a class="social" href="https://steamcommunity.com/id/HarryRojr" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" alt="Steam"><span>Steam</span></a>
+            <a class="social" href="https://my.play/HarryRojr" target="_blank" rel="noopener noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_Play_2022_icon.svg/960px-Google_Play_2022_icon.svg.png" alt="Google Play Games"><span>Google Play Games</span></a>
+            <a class="social" href="https://backloggd.com/u/HarryRojr" target="_blank" rel="noopener noreferrer"><img src="https://pbs.twimg.com/profile_images/1541908760607821824/3Am5dmsx_400x400.jpg" alt="Backloggd"><span>Backloggd</span></a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title"><h2>Private-ish profiles</h2><span class="tiny-label">click to reveal</span></div>
+          <p class="text">PlayStation, Epic Games and Discord are hiding behind the world's least secure security system: a button.</p>
+          <div class="chips" style="margin-top:14px;">
+            <button class="chip red" onclick="reveal('PlayStation: HarryRojr')">🎮 PlayStation</button>
+            <button class="chip" onclick="reveal('Epic Games: HarryRojr')">🕹️ Epic Games</button>
+            <button class="chip" onclick="reveal('Discord: HRojr')">💬 Discord</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOVE -->
+      <section id="love" class="section">
+        <div class="card rickroll">
+          <div class="big-emoji">🔒</div>
+          <div class="eyebrow">Top secret database</div>
+          <h1 style="font-family:'Space Grotesk';margin-bottom:8px;">Love Life.exe has stopped responding.</h1>
+          <p class="text">The developer has chosen not to disclose further information.</p>
+          <button class="chip red" style="margin-top:20px;cursor:pointer;" onclick="location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'">Attempt recovery</button>
+        </div>
+      </section>
+
+    </main>
+
+    <aside>
+      <!-- REQUIREMENTS WIDGET -->
+      <div class="widget">
+        <div class="widget-head">
+          <h3>Potato PC Requirements</h3>
+          <span class="material-icons widget-icon">memory</span>
+        </div>
+
+        <div class="req-game">
+          <strong>Can my potato run it?</strong>
+          <div class="req-row"><span>CPU</span><span>2.7GHz + prayers</span></div>
+          <div class="req-row"><span>GPU</span><span>GTX “Please Work” 2GB</span></div>
+          <div class="req-row"><span>RAM</span><span>8GB-ish</span></div>
+          <div class="req-row"><span>Storage</span><span>SSD strongly begged</span></div>
+          <div class="req-row"><span>OS</span><span>Windows & optimism</span></div>
+          <div class="potato-meter"><span></span></div>
+          <div class="widget-note">Potato stress level: concerning.</div>
+        </div>
       </div>
-    </div>
 
-    <!-- PC Specs -->
-    <div class="card">
-      <div class="section-heading" id="specs-heading"><span class="dot"></span>My Setup:</div>
-      <div class="terminal-bar">
-        <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
-        <span>HarryRojr@gaming-rig ~ specs</span>
+      <!-- RECENTLY INTO -->
+      <div class="widget">
+        <div class="widget-head">
+          <h3>What I'm Into Lately</h3>
+          <span class="material-icons widget-icon">whatshot</span>
+        </div>
+
+        <ul class="recent-list">
+          <li><div class="recent-icon">🏴‍☠️</div><div><strong>Sea of Thieves</strong><span>More treasure. Less dignity.</span></div></li>
+          <li><div class="recent-icon">👊</div><div><strong>TEKKEN 8</strong><span>“One more match” — famous last words.</span></div></li>
+          <li><div class="recent-icon">📺</div><div><strong>Anime</strong><span>Accidentally started another 24-episode series.</span></div></li>
+          <li><div class="recent-icon">📚</div><div><strong>Manga & Comics</strong><span>My backlog has its own backlog.</span></div></li>
+          <li><div class="recent-icon">🎬</div><div><strong>Movies & Shows</strong><span>Three hours? That's basically a short game.</span></div></li>
+        </ul>
       </div>
-      <div class="specs-grid">
-        <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">AMD Ryzen 7 5800X</span></div>
-        <div class="spec-row"><span class="spec-key">Monitor</span><span class="spec-val">1440p 165Hz IPS</span></div>
-        <div class="spec-row"><span class="spec-key">GPU</span><span class="spec-val">RTX 3070 Ti</span></div>
-        <div class="spec-row"><span class="spec-key">Mouse</span><span class="spec-val">G Pro X Superlight</span></div>
-        <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">32GB DDR4 3200MHz</span></div>
-        <div class="spec-row"><span class="spec-key">Keyboard</span><span class="spec-val">Keychron Q3 (Red)</span></div>
-        <div class="spec-row"><span class="spec-key">Storage</span><span class="spec-val">1TB NVMe SSD</span></div>
-        <div class="spec-row"><span class="spec-key">Headset</span><span class="spec-val">HyperX Cloud III</span></div>
-        <div class="spec-row"><span class="spec-key">OS</span><span class="spec-val">Windows 11</span></div>
-        <div class="spec-row"><span class="spec-key">Console</span><span class="spec-val">Xbox + PlayStation</span></div>
+
+      <!-- MOOD -->
+      <div class="widget">
+        <div class="widget-head">
+          <h3>Current Status</h3>
+          <span class="tiny-label">live-ish</span>
+        </div>
+        <div class="mood">
+          <div class="mood-face">🎮</div>
+          <div><strong>Probably gaming</strong><span>Productivity has left the server.</span></div>
+        </div>
       </div>
-    </div>
 
-    <!-- Movies & Anime -->
-    <div class="card">
-      <div class="section-heading" id="videos-anime-heading"><span class="dot"></span>Hobbies:</div>
-      <p>
-       When I'm not gaming, I'm usually watching something. My watch history is all over the place — one minute it's people pulling off ridiculous plays in Dead by Daylight, the next it's a movie that's somehow three hours long and still leaves me wanting more. I'm also a huge anime fan, and yes, I binged Attack on Titan at an unhealthy speed once I finally got into it. Whether it's anime, movies, or entire seasons of a show disappearing in a single weekend, I'm always looking for the next thing worth watching. If there's a good story, great characters, or enough plot twists to keep me guessing, chances are I'm already hooked. Outside of that, I also spend a lot of time reading manga and comics. It’s another world I can easily get lost in, especially when I’ve got music on in the background. Music is basically my constant companion — whether it’s heavy bass for hype moments, lo-fi for late nights, or something that just hits emotionally at the right time. My playlists are pretty mixed, from artists like Ed Sheeran and Sia to tracks that are just pure energy depending on the mood.
-
-At the end of the day, it’s all part of the same thing for me: good stories, good vibes, and getting completely immersed in whatever world I’m in at the moment.
-      </p>
-    </div>
-
-    <!-- Connect -->
-    <div class="card">
-      <div class="section-heading" id="connect-with-me-heading"><span class="dot"></span>Connect with me:</div>
-      <p>
-If you ever want to talk games, anime, or movies, feel free to reach out. I’m usually around on Xbox, PlayStation, Twitter (X), or Reddit.
-
-Always open to a good chat or a new game session — just don’t expect me to go too easy in-game. 😎
-      </p>
-    </div>
-
+      <!-- MINI ABOUT -->
+      <div class="widget">
+        <div class="widget-head">
+          <h3>Important Statistics</h3>
+          <span class="material-icons widget-icon">query_stats</span>
+        </div>
+        <div class="req-row"><span>Games unfinished</span><span>Yes</span></div>
+        <div class="req-row"><span>Sleep schedule</span><span>404 Not Found</span></div>
+        <div class="req-row"><span>Money spent on games</span><span>Classified</span></div>
+        <div class="req-row"><span>Will buy another game</span><span>Absolutely</span></div>
+      </div>
+    </aside>
   </div>
 
-  <!-- ══ SOCIALS ══ -->
-  <div id="socials-section" class="content-section">
-    <div class="card">
-      <div class="section-heading" id="find-me-online-heading"><span class="dot"></span>Find Me Online!</div>
-      <div class="socials-grid">
+  <footer>
+    <span>© 2026 HarryRojr · Built with caffeine and questionable decisions.</span>
+    <button id="footerEgg">Do not click this.</button>
+  </footer>
 
-        <a href="https://www.xbox.com/en-US/play/user/HarryRojr" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg" alt="Xbox">
-          <span class="social-link-label">Xbox</span>
-        </a>
-
-        <details>
-          <summary><div class="social-link">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PlayStation">
-            <span class="social-link-label">PlayStation</span>
-          </div></summary>
-          <div class="details-reveal">Username: <strong>HarryRojr</strong></div>
-        </details>
-
-        <details>
-          <summary><div class="social-link">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Epic_Games_logo.svg" alt="Epic Games">
-            <span class="social-link-label">Epic Games</span>
-          </div></summary>
-          <div class="details-reveal">Username: <strong>HarryRojr</strong></div>
-        </details>
-
-        <a href="https://x.com/HarryRojr/" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://about.x.com/content/dam/about-twitter/x/large-x-logo.png.twimg.768.png" alt="Twitter X">
-          <span class="social-link-label">Twitter (X)</span>
-        </a>
-
-        <a href="https://www.reddit.com/user/HarryRojr/" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/en/b/bd/Reddit_Logo_Icon.svg" alt="Reddit">
-          <span class="social-link-label">Reddit</span>
-        </a>
-
-        <a href="https://open.spotify.com/user/27mruhq25lv2pvek3hs2ksi0t?si=b5e9fd6a937642cc" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
-          <span class="social-link-label">Spotify</span>
-        </a>
-
-        <a href="https://www.youtube.com/@HarryRojr" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube">
-          <span class="social-link-label">YouTube</span>
-        </a>
-
-        <a href="https://www.twitch.tv/HarryRojr" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg" alt="Twitch">
-          <span class="social-link-label">Twitch</span>
-        </a>
-
-        <details>
-          <summary><div class="social-link">
-            <img src="https://preview.redd.it/old-discord-logo-feeling-old-yet-v0-7enta5v0houc1.png?auto=webp&s=780eba64b34cc77e01abc8c0f9cc031a9801f441" alt="Discord">
-            <span class="social-link-label">Discord</span>
-          </div></summary>
-          <div class="details-reveal">Username: <strong>HRojr</strong></div>
-        </details>
-
-        <a href="https://steamcommunity.com/id/HarryRojr" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" alt="Steam">
-          <span class="social-link-label">Steam</span>
-        </a>
-
-        <a href="https://my.play/HarryRojr" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_Play_2022_icon.svg/960px-Google_Play_2022_icon.svg.png" alt="Google Play Games">
-          <span class="social-link-label">Google Play Games</span>
-        </a>
-        
-        <a href="https://backloggd.com/u/HarryRojr" class="social-link" target="_blank" rel="noopener noreferrer">
-          <img src="https://pbs.twimg.com/profile_images/1541908760607821824/3Am5dmsx_400x400.jpg" alt="Backloggd">
-          <span class="social-link-label">Backloggd</span>
-        </a>
-
-      </div>
+  <!-- MUSIC -->
+  <div class="music" id="music">
+    <button class="play" id="play"><span class="material-icons">play_arrow</span></button>
+    <div class="track">
+      <strong>Snowfall</strong>
+      <span>Øneheart · background vibes</span>
     </div>
+    <input class="volume" id="volume" type="range" min="0" max="1" step=".01" value=".2" aria-label="Volume">
+    <button class="music-close" id="musicClose" aria-label="Hide music">×</button>
   </div>
+  <button class="music-mini" id="musicMini" aria-label="Show music"><span class="material-icons">music_note</span></button>
 
-  <!-- ══ LOVE LIFE ══ -->
-  <div id="love-life-section" class="content-section">
-    <div class="card" style="text-align:center;">
-      <div class="section-heading" style="justify-content:center;width:100%;"><span class="dot"></span>My Love Life (Top Secret!)</div>
-      <p>This section is currently empty, as my love life is as mysterious as a hidden achievement in a new game. Stay tuned for future updates, or maybe not! 😉</p>
-      <p style="margin-top:0.75rem;">(Psst... check the "Love Life" tab in the header again if you're feeling brave!)</p>
-    </div>
-  </div>
+  <div class="secret-toast" id="toast"></div>
 
-</main>
+  <audio id="audio" loop>
+    <source src="https://raw.githubusercontent.com/HarryRojr/HarryRojr.github.io/refs/heads/main/assets/snowfall.mp3" type="audio/mpeg">
+  </audio>
 
-<footer id="site-footer">Thanks for reading, Have a Wonderful Day!</footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('nav button');
+      const sections = document.querySelectorAll('.section');
 
-<!-- ── MUSIC PLAYER ── -->
-<div class="music-player-card" id="music-card">
-  <button id="play-pause-btn" class="ctrl-btn big" aria-label="Play/Pause">
-    <i class="material-icons">play_arrow</i>
-  </button>
-  <div class="track-info">
-    <div class="track-row">
-      <span class="track-title">Snowfall</span>
-      <div class="eq-bars" id="eq-bars">
-        <div class="eq-bar"></div><div class="eq-bar"></div>
-        <div class="eq-bar"></div><div class="eq-bar"></div>
-      </div>
-    </div>
-    <span class="track-artist">Øneheart</span>
-  </div>
-  <div class="vol-wrap">
-    <i class="material-icons" style="font-size:16px;color:var(--muted);">volume_up</i>
-    <input type="range" id="volume-slider" class="vol-slider" min="0" max="1" step="0.01" value="0.2">
-  </div>
-  <button id="hide-player-btn" class="ctrl-btn" aria-label="Minimize" style="width:30px;height:30px;">
-    <i class="material-icons" style="font-size:18px;">expand_more</i>
-  </button>
-</div>
+      function showSection(id) {
+        buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+        sections.forEach(s => s.classList.toggle('active', s.id === id));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
-<button id="show-player-btn" class="show-player-btn" aria-label="Show music player">
-  <i class="material-icons">music_note</i>
-</button>
-
-<audio id="bg-music" loop>
-  <source src="https://raw.githubusercontent.com/HarryRojr/HarryRojr.github.io/refs/heads/main/assets/snowfall.mp3" type="audio/mpeg">
-</audio>
-
-<canvas id="snowfall-canvas"></canvas>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-  // ── SCROLL BAR ──
-  const scrollBar = document.getElementById('scroll-bar');
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    const max = document.body.scrollHeight - window.innerHeight;
-    scrollBar.style.width = max > 0 ? (scrolled / max * 100) + '%' : '0%';
-  });
-
-  // ── TAB NAVIGATION ──
-  const navBtns  = document.querySelectorAll('.nav-links button');
-  const sections = document.querySelectorAll('.content-section');
-
-  function showSection(targetId) {
-    navBtns.forEach(b => b.classList.remove('active'));
-    sections.forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
-    const btn = document.querySelector(`.nav-links button[data-target="${targetId}"]`);
-    if (btn) btn.classList.add('active');
-    const sec = document.getElementById(targetId);
-    if (sec) { sec.style.display = 'block'; void sec.offsetWidth; sec.classList.add('active'); }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  navBtns.forEach(btn => {
-    btn.addEventListener('click', function () {
-      const t = this.dataset.target;
-      if (t === 'love-life-section') {
-        window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
-      } else { showSection(t); }
-    });
-  });
-
-  showSection('home-section');
-
-  // ── BOUNCY HEADINGS ──
-  const eggs = {
-    'about-me-heading':        ['About me:',                  "Yes, It's really about me!"],
-    'stats-heading':           ['Gamer Stats:',               "Yeah yeah, I have no life 😂"],
-    'games-heading':           ['Games I Play:',              "Yes, I have no life. And?"],
-    'specs-heading':           ['My Setup:',                  "Don't touch my rig. I mean it."],
-    'videos-anime-heading':    ['Movies & Anime Obsession:',  "I haven't slept for days cuz of that y'know"],
-    'music-addiction-heading': ['Music & Manga Addiction:',   "I'm such an addict, send help!"],
-    'connect-with-me-heading': ['Connect with me:',           "I can see you, you little stalker ;)"],
-    'find-me-online-heading':  ['Find Me Online!',            "I'm everywhere"],
-  };
-
-  Object.entries(eggs).forEach(([id, [orig, alt]]) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('click', () => {
-      const textNode = el.lastChild;
-      if (!textNode) return;
-      textNode.textContent = ' ' + alt;
-      el.classList.add('popped', 'bounce-anim');
-      el.addEventListener('animationend', () => {
-        el.classList.remove('bounce-anim');
-        setTimeout(() => { textNode.textContent = ' ' + orig; el.classList.remove('popped'); }, 1800);
-      }, { once: true });
-    });
-  });
-
-  // ── FOOTER ──
-  const footer = document.getElementById('site-footer');
-  footer.addEventListener('click', function () {
-    this.textContent = 'Yayyy 🎉';
-    setTimeout(() => { this.textContent = 'Thanks for reading, Have a Wonderful Day!'; }, 2000);
-  });
-
-  // ── QUACK ──
-  document.getElementById('site-title').addEventListener('click', () => {
-    try {
-      const q = new Audio('https://www.myinstants.com/media/sounds/quack_5.mp3');
-      q.volume = 0.5;
-      q.play().catch(() => {});
-      const t = document.getElementById('site-title');
-      t.style.animation = 'quack-bounce 0.4s ease';
-      t.addEventListener('animationend', () => { t.style.animation = ''; }, { once: true });
-    } catch (e) {}
-  });
-
-  // ── MUSIC PLAYER ──
-  const music     = document.getElementById('bg-music');
-  const ppBtn     = document.getElementById('play-pause-btn');
-  const volSlider = document.getElementById('volume-slider');
-  const hideBtn   = document.getElementById('hide-player-btn');
-  const showBtn   = document.getElementById('show-player-btn');
-  const musicCard = document.getElementById('music-card');
-  const playIcon  = ppBtn.querySelector('i');
-  const eqBars    = document.querySelectorAll('.eq-bar');
-
-  music.volume = 0.2;
-
-  function syncUI() {
-    playIcon.textContent = music.paused ? 'play_arrow' : 'pause';
-    ppBtn.classList.toggle('playing', !music.paused);
-    eqBars.forEach(b => b.classList.toggle('visible', !music.paused));
-  }
-
-  ppBtn.addEventListener('click', () => {
-    music.paused ? music.play().catch(() => {}) : music.pause();
-    syncUI();
-  });
-
-  volSlider.addEventListener('input', () => { music.volume = volSlider.value; });
-  hideBtn.addEventListener('click',   () => { musicCard.classList.add('hidden'); showBtn.style.display = 'flex'; });
-  showBtn.addEventListener('click',   () => { musicCard.classList.remove('hidden'); showBtn.style.display = 'none'; syncUI(); });
-
-  music.addEventListener('play',  syncUI);
-  music.addEventListener('pause', syncUI);
-  syncUI();
-
-  // ── SNOWFALL ──
-  const canvas = document.getElementById('snowfall-canvas');
-  const ctx    = canvas.getContext('2d');
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
-
-  window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-
-  const flakes = Array.from({ length: 80 }, () => ({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    size: Math.random() * 4 + 2,
-    speed: Math.random() * 1.4 + 0.5,
-  }));
-
-  let snowAlpha = 0, targetAlpha = 0;
-
-  (function animateSnow() {
-    snowAlpha += (targetAlpha - snowAlpha) * 0.05;
-    ctx.clearRect(0, 0, w, h);
-    if (snowAlpha > 0.01) {
-      ctx.fillStyle = `rgba(255,255,255,${snowAlpha})`;
-      flakes.forEach(f => {
-        ctx.fillRect(f.x, f.y, f.size, f.size);
-        f.y += f.speed;
-        if (f.y > h) f.y = -f.size;
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.target === 'love') {
+            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+            return;
+          }
+          showSection(btn.dataset.target);
+        });
       });
-    }
-    requestAnimationFrame(animateSnow);
-  })();
 
-  music.addEventListener('play',  () => { targetAlpha = 1; });
-  music.addEventListener('pause', () => { targetAlpha = 0; });
+      /* Funny heading easter eggs */
+      const secrets = {
+        about: [
+          'Congratulations. You discovered a man talking about himself on his own website.',
+          'Fun fact: I wrote this section instead of touching grass.',
+          'Character development: still pending.',
+          'Biography complete. Please collect 200 XP.'
+        ],
+        games: [
+          'My backlog has entered the “maybe next decade” phase.',
+          'Gaming is my cardio. My fingers are absolutely shredded.',
+          'I have beaten many games. My backlog has beaten me.',
+          'One more game. Definitely. Probably. Maybe.'
+        ],
+        pc: [
+          'CPU: powered by electricity and emotional support.',
+          'GPU: potato architecture, premium confidence.',
+          'FPS: Frames Per Second. Also, Feelings Per Session.',
+          'My PC does not overheat. It becomes motivationally warm.'
+        ],
+        hobbies: [
+          'Anime: because sleeping is apparently optional.',
+          'Manga: I can stop whenever I want. I just choose not to.',
+          'Movies: “one episode” has never once meant one episode.',
+          'Music: louder than my financial responsibility.'
+        ],
+        connect: [
+          'You found me. Now we both have to figure out what to say.',
+          'DMs open. Social skills loading… 14%.',
+          'Send memes. This is a professional requirement.',
+          'Warning: conversations may accidentally become gaming sessions.'
+        ]
+      };
 
-});
-</script>
+      document.querySelectorAll('.secret-heading').forEach(el => {
+        el.addEventListener('click', () => {
+          const pool = secrets[el.dataset.secret];
+          const message = pool[Math.floor(Math.random() * pool.length)];
+          reveal(message);
+          el.querySelector('.icon').style.transform = 'rotate(360deg) scale(1.12)';
+          setTimeout(() => el.querySelector('.icon').style.transform = '', 280);
+        });
+      });
+
+      /* Toast */
+      const toast = document.getElementById('toast');
+      let toastTimer;
+
+      window.reveal = function(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+      };
+
+      document.getElementById('brand').addEventListener('click', () => {
+        reveal('HR.exe has detected you clicking the logo. Suspicious behavior logged. 👀');
+      });
+
+      document.getElementById('footerEgg').addEventListener('click', function() {
+        const messages = [
+          'I TOLD YOU NOT TO CLICK IT.',
+          'Okay. You win. 🎉',
+          'This button had one job.',
+          'Achievement unlocked: Button Masher.'
+        ];
+        this.textContent = messages[Math.floor(Math.random() * messages.length)];
+        setTimeout(() => this.textContent = 'Do not click this.', 2200);
+      });
+
+      /* Music */
+      const audio = document.getElementById('audio');
+      const play = document.getElementById('play');
+      const volume = document.getElementById('volume');
+      const music = document.getElementById('music');
+      const mini = document.getElementById('musicMini');
+
+      audio.volume = .2;
+
+      function syncMusic() {
+        play.innerHTML = '<span class="material-icons">' + (audio.paused ? 'play_arrow' : 'pause') + '</span>';
+      }
+
+      play.addEventListener('click', () => {
+        if (audio.paused) audio.play().catch(() => {});
+        else audio.pause();
+        syncMusic();
+      });
+
+      audio.addEventListener('play', syncMusic);
+      audio.addEventListener('pause', syncMusic);
+      volume.addEventListener('input', () => audio.volume = volume.value);
+
+      document.getElementById('musicClose').addEventListener('click', () => {
+        music.style.display = 'none';
+        mini.style.display = 'grid';
+      });
+
+      mini.addEventListener('click', () => {
+        music.style.display = 'flex';
+        mini.style.display = 'none';
+      });
+
+      /* Scroll progress */
+      window.addEventListener('scroll', () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        document.getElementById('progress').style.width =
+          max > 0 ? (scrollY / max * 100) + '%' : '0%';
+      });
+    });
+  </script>
 </body>
 </html>
