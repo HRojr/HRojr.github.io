@@ -1,14 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="icon" href="assets/HR.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="assets/HR.ico" type="image/x-icon">
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#df5965">
 <meta name="description" content="HarryRojr — gamer, tech enthusiast, anime binger and professional potato-PC survivor.">
 <title>HarryRojr — Gaming Dashboard</title>
+<link rel="icon" href="https://raw.githubusercontent.com/HarryRojr/HarryRojr.github.io/refs/heads/main/assets/HR.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..800&family=Google+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -35,19 +33,6 @@ main{width:min(var(--max),calc(100% - 32px));margin:30px auto 100px}.page{displa
 @media(max-width:430px){body{font-size:15px}.games,.socialgrid{grid-template-columns:1fr}.pad{padding:20px}.hero{padding:21px}h1{font-size:40px}.volume{width:58px}.player{padding:10px}.cover{width:40px;height:40px}.player .play{width:38px;height:38px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
-
-<style id="hr-mini-player">
-.music-mini{position:relative;display:flex;align-items:center;gap:10px;width:min(310px,100%);min-height:52px;padding:7px 9px;border:1px solid rgba(181,35,55,.14);border-radius:16px;background:rgba(255,255,255,.9);box-shadow:0 6px 20px rgba(20,20,30,.07);backdrop-filter:blur(10px);overflow:hidden}
-.music-mini-cover{width:36px;height:36px;flex:0 0 36px;border-radius:11px;display:grid;place-items:center;background:#fff0f2;color:#b52337;font-size:18px}
-.music-mini-info{min-width:0;display:grid;gap:3px;flex:1;line-height:1.1}
-.music-mini-info strong,.music-mini-info span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.music-mini-info strong{font-size:13px}.music-mini-info span{font-size:11px;opacity:.58}
-.music-mini-btn{width:34px;height:34px;border:0;border-radius:50%;cursor:pointer;display:grid;place-items:center;background:#b52337;color:#fff;font-size:12px}
-.music-mini-progress{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(181,35,55,.08)}
-.music-mini-progress span{display:block;width:0;height:100%;background:#b52337}
-@media(max-width:600px){.music-mini{width:100%;min-height:50px}}
-</style>
-
 </head>
 <body>
 <header class="topbar"><div class="topbar-inner">
@@ -85,29 +70,25 @@ main{width:min(var(--max),calc(100% - 32px));margin:30px auto 100px}.page{displa
 <section id="love" class="page"><div class="card love"><div><div class="loveicon">❤️</div><h2>Love Life</h2><p>Loading...</p><button class="nav-btn active" id="love-btn">Investigate anyway</button></div></div></section>
 </main>
 <footer id="footer">Thanks for visiting. Please pretend this website is a productive use of my time.</footer>
-<div class="player" id="player"><div class="player-main"><div class="cover">❄️</div><div class="track"><strong>Snowfall</strong><span>Øneheart · ambient mode</span></div><div class="eq"><i></i><i></i><i></i><i></i></div><button class="play" id="play">▶</button></div><div class="progress" id="progress"><i></i></div><div class="controls"><button id="back">↺</button><button id="mute">🔊</button><input class="volume" id="volume" type="range" min="0" max="1" step=".01" value=".75"><span class="spacer"></span><span class="tiny" id="time">0:00 / 0:00</span></div><audio id="audio" preload="metadata" src="assets/snowfall.mp3"></audio></div>
+<div class="player" id="player"><div class="player-main"><div class="cover">❄️</div><div class="track"><strong>Snowfall</strong><span>Øneheart · ambient mode</span></div><div class="eq"><i></i><i></i><i></i><i></i></div><button class="play" id="play">▶</button></div><div class="progress" id="progress"><i></i></div><div class="controls"><button id="back">↺</button><button id="mute">🔊</button><input class="volume" id="volume" type="range" min="0" max="1" step=".01" value=".75"><span class="spacer"></span><span class="tiny" id="time">0:00 / 0:00</span></div><audio id="audio" preload="metadata" src="https://raw.githubusercontent.com/HarryRojr/HarryRojr.github.io/refs/heads/main/assets/snowfall.mp3"></audio></div>
 <div class="toast" id="toast"></div>
 <div class="modalback" id="modal"><div class="modal"><div class="modalhead"><div><div class="eyebrow">Achievement unlocked</div><h2 id="mtitle">You found something.</h2></div><button class="close" id="close">✕</button></div><div class="achievement"><div class="achievementicon">🏆</div><div><strong id="mtext">Secret achievement.</strong><br><span class="tiny">+6 imaginary gamer points</span></div></div><p class="tiny">Click around. There may or may not be more nonsense hidden here.</p></div></div>
-
-
-<script id="hr-mini-player-js">
-(() => {
-  const audio = document.getElementById('siteMusic');
-  const btn = document.getElementById('musicToggle');
-  const bar = document.getElementById('musicProgress');
-  if (!audio || !btn) return;
-
-  btn.onclick = () => {
-    if (audio.paused) audio.play().catch(() => {});
-    else audio.pause();
-  };
-  audio.onplay = () => { btn.textContent = '❚❚'; btn.title = 'Pause'; };
-  audio.onpause = () => { btn.textContent = '▶'; btn.title = 'Play'; };
-  audio.ontimeupdate = () => {
-    if (audio.duration) bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
-  };
-  audio.onended = () => { bar.style.width = '0%'; };
-})();
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)],toast=$('#toast');let timer;
+function showToast(t){toast.textContent=t;toast.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>toast.classList.remove('show'),2600)}
+const nav=$('#nav');$('#menu').onclick=()=>nav.classList.toggle('open');
+$$('.nav-btn[data-page]').forEach(b=>b.onclick=()=>{let p=b.dataset.page;$$('.page').forEach(x=>x.classList.toggle('active',x.id===p));$$('.nav-btn[data-page]').forEach(x=>x.classList.toggle('active',x===b));nav.classList.remove('open');window.scrollTo({top:0,behavior:'smooth'});if(p==='love')setTimeout(()=>location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ',350)});
+const secrets={about:['Yes, it really is about me.','Breaking news: Harry has discovered the About Me section.','You clicked a heading. I’m proud of you.'],games:['Yes, I have no life. And?','One more game. Famous last words.','My backlog fears me.'],setup:['Don’t touch my rig. I mean it.','These specifications are classified potato technology.','NASA called. They want their thermal paste back.'],hobbies:['I haven’t slept because of this, you know.','One episode became an entire season.','The backlog has become sentient.']};
+const modal=$('#modal');$$('[data-secret]').forEach(c=>{let h=c.querySelector('h2'),n=0;h.style.cursor='pointer';h.onclick=()=>{n++;showToast(secrets[c.dataset.secret][(n-1)%3]);if(n===6){$('#mtitle').textContent='Six clicks. Seriously?';$('#mtext').textContent='You have officially over-investigated a personal website.';modal.classList.add('show');n=0}}});
+$('#close').onclick=()=>modal.classList.remove('show');modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
+let dc=0;$('#brand').onclick=e=>{e.preventDefault();dc++;showToast(dc<3?'🐤 You found the logo duck.':'🐤 QUACK. You have angered the duck.');if(dc===3){dc=0;$('#mtitle').textContent='The Duck Has Spoken';$('#mtext').textContent='“Go play Sea of Thieves.”';modal.classList.add('show')}};
+$('#footer').onclick=()=>showToast('🎉 Achievement unlocked: You read the footer.');
+const audio=$('#audio'),play=$('#play'),player=$('#player'),progress=$('#progress'),bar=progress.querySelector('i'),volume=$('#volume'),mute=$('#mute'),time=$('#time');audio.volume=.75;
+const fmt=s=>isFinite(s)?Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'):'0:00';function update(){bar.style.width=(audio.duration?audio.currentTime/audio.duration*100:0)+'%';time.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration)}
+play.onclick=async()=>{if(audio.paused){try{await audio.play()}catch(e){showToast('🎵 Browser blocked playback. Click play again.')}}else audio.pause()};audio.onplay=()=>{play.textContent='Ⅱ';player.classList.add('playing');showToast('❄️ Snowfall mode activated. The page stays snow-free.')};audio.onpause=()=>{play.textContent='▶';player.classList.remove('playing')};audio.ontimeupdate=update;audio.onloadedmetadata=update;
+progress.onclick=e=>{if(audio.duration){let r=progress.getBoundingClientRect();audio.currentTime=(e.clientX-r.left)/r.width*audio.duration}};$('#back').onclick=()=>{audio.currentTime=0;if(audio.paused)audio.play().catch(()=>{})};volume.oninput=()=>{audio.volume=+volume.value;audio.muted=false;mute.textContent='🔊'};mute.onclick=()=>{audio.muted=!audio.muted;mute.textContent=audio.muted?'🔇':'🔊'};
+setInterval(()=>{if(!audio.paused&&document.visibilityState==='visible'){let n=document.createElement('span');n.className='note';n.textContent=['♪','♫','♩'][Math.floor(Math.random()*3)];n.style.left=(18+Math.random()*70)+'vw';n.style.bottom=(90+Math.random()*50)+'px';document.body.appendChild(n);setTimeout(()=>n.remove(),1300)}},1100);
+// Backloggd-ready hook for a future GitHub Actions/data sync.
+window.HarryRojr={loadBackloggd:async(url='data/backloggd.json')=>{try{return await fetch(url,{cache:'no-store'}).then(r=>r.ok?r.json():null)}catch(e){return null}}};
 </script>
-
 </body></html>
