@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..800&family=Google+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#101114;--surface:#181a1f;--soft:#24171a;--text:#292c32;--muted:#a7abb3;--line:#2b2e35;--red:#e45d68;--red2:#f27b84;--redsoft:#351d21;--green:#55b878;--shadow:0 2px 8px #0008,0 10px 28px #0005;--hover:0 8px 24px #0008;--radius:20px;--max:1320px}
+:root{--bg:#101114;--surface:#181a1f;--soft:#24171a;--text:#f1f3f4;--muted:#a7abb3;--line:#2b2e35;--red:#e45d68;--red2:#f27b84;--redsoft:#351d21;--green:#55b878;--shadow:0 2px 8px #0008,0 10px 28px #0005;--hover:0 8px 24px #0008;--radius:20px;--max:1320px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"Google Sans Flex","Google Sans",Arial,sans-serif;font-size:16px;line-height:1.55;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}
 .topbar{position:sticky;top:0;z-index:1000;background:#15171bf2;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.topbar-inner{width:min(var(--max),calc(100% - 32px));min-height:68px;margin:auto;display:flex;align-items:center;gap:22px}
 .brand{display:flex;align-items:center;gap:11px;font-weight:750;font-size:20px;letter-spacing:-.03em;white-space:nowrap}.brand-mark{width:34px;height:34px;border-radius:11px;background:var(--red);display:grid;place-items:center;color:#181a1f;box-shadow:0 3px 9px #df596540}.brand-dot{width:8px;height:8px;border-radius:50%;background:#181a1f}
@@ -47,6 +47,10 @@ body{color:var(--text)}
 h1,h2,h3,h4,p,span,li,strong,b,label{color:inherit}
 .muted,.sub,.desc,.meta{color:var(--muted)}
 a{color:inherit}
+</style>
+<style id="final-color-fix">
+body{color:#f1f3f4}
+h1,h2,h3,.brand,.value,.reqrow span:last-child,.listitem strong,.stat b,.social strong{color:#f1f3f4}
 </style>
 </head>
 <body>
